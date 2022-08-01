@@ -17,11 +17,11 @@ class CreateArticlesTable extends Migration
             $table->id();
             $table->string("title");
             $table->text("description");
-            $table->string("photo");
-            $table->date("publication_date");
+            $table->string("photo")->nullable();
+            $table->date("publication_date")->nullable();
             $table->boolean("published")->default(false);
-            $table->unsignedBigInteger("users_id");
-            $table->foreign("users_id")->references('id')->on('users');
+            $table->unsignedBigInteger("author_id");
+            $table->foreign("author_id")->references("id")->on("users");
             $table->timestamps();
         });
     }

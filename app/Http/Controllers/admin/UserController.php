@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -22,9 +23,18 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        User::create([
+            'name' =>$request->name,
+            'email'=>$request->email,
+            'password'=>$request->password,
+            'photo'=>$request->photo,
+            'birth_date'=>$request->dateOfBirth,
+            'role'=>$request->role,
+        ]);
+        $alert = "successfully created User! Welcome";
+        return view('admin.user.alert', compact('alert'));
     }
 
     /**

@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\admin\ArticleController;
+use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +19,24 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/admin', function () {
-    return view('admin/home');
+
+
+Route::get('/login', [AuthController::class, 'index']);
+Route::Post('/login', [AuthController::class, 'login'])->name("login");
+
+//il faut etre authentifié pour acceder à "articles" / "logout" ...
+Route::middleware('auth')->group(function(){
+    Route::get('/admin', function(){
+        return view('admin.home');
+    });
+
+    Route::prefix('/admin')->group(function(){
+        Route::resource("articles", ArticleController::class)->names([
+            'create'=>'articles.create',
+            'index'=>'articles.list',
+        ]);
+    });
+    
+    Route::get('/logout', [AuthController::class, 'logout'])->name("logout");
+
 });

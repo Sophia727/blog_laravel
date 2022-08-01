@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory
@@ -20,6 +21,11 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+            'role'=> Arr::random(["user", "admin"]),
+            'activate'=>true,
+            'photo' => $this->faker->imageUrl(640,480,'users',true),
+            'birth_date'=> now(),
+        
         ];
     }
 
@@ -30,10 +36,11 @@ class UserFactory extends Factory
      */
     public function unverified()
     {
-        return $this->state(function (array $attributes) {
+        return $this->state(function(array $attributes){
             return [
-                'email_verified_at' => null,
+                'email_verified_at'=>null,
             ];
         });
     }
+
 }

@@ -1,5 +1,4 @@
-<?php
-
+<?php   
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +12,7 @@ class Article extends Model
         "title",
         "description",
         "author_id",
-        "publication-date",
+        "publication_date",
         "photo",
         "published"
     ];
