@@ -9,14 +9,14 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Articles</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin">Dashbord</a>
-          </li>
           
           @auth
+            <li class="nav-item">
+              <a class="nav-link" href="#">Articles</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">Dashbord</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link btn btn-danger" href="/logout">Log-out</a>
             </li>   

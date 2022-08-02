@@ -35,7 +35,12 @@ Route::middleware('auth')->group(function(){
             'create'=>'articles.create',
             'index'=>'articles.list',
         ]);
-    });
+        
+    Route::put('article/{id}/publish', [ArticleController::class, 'publish'])->name('articles.publish');
+    // Route::put('article/{query}/search', [ArticleController::class, 'search'])->name('articles.search');
+    Route::get('article/search', [ArticleController::class, 'search'])->name('articles.search');
+
+});
     
     Route::get('/logout', [AuthController::class, 'logout'])->name("logout");
 

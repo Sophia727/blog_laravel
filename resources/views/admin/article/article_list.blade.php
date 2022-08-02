@@ -23,7 +23,19 @@
       </div>
     @endif
     <div class="card ">
-      <div class="card-header"> <h2>All articles</h2></div>
+
+      <div class="card-header"> 
+        
+        <div class="col-8">
+          <h2>All articles</h2></div>
+        </div>
+
+        <div class="col-4">
+          @include('components.search')
+        </div>
+
+      </div>
+
       <div class="card-body">
        
         <div class="table-responsive table-bordered">
@@ -42,9 +54,9 @@
             </thead>
             <tbody>
             @foreach ($articles as $article)
+          
             <tr>
               <td>{{$article->id}}</td>
-
               <td>
                 @if($article->photo)
                   @if(Str::contains($article->photo, 'https://'))
@@ -55,18 +67,49 @@
                   @else
                   <img src="{{asset('storage/images/default-image.jpg'.$article->photo)}}"alt="{{$article->title}}" width="100px">
                   
-                @endif
-
-              </td>
-              
+                @endif 
+              </td> 
               <td>{{$article->title}}</td>
               <td>{{ Str::limit($article->description,'30') }}</td>
               <td>{{$article->author_id}}</td>
               <td>{{$article->publication_date}}</td>
               <td>{{$article->published}}</td>
+
               <td>
-                <a class="btn btn-success btn-sm" title="Edit"><i class="bi bi-pencil"></i></a>
-                <a class="btn btn-danger btn-sm" title="Delete"><i class="bi bi-trash"></i></a>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" onchange="if(confirm('Are you sure you would like to change the status of this Article?')){
+                    document.getElementById('publish-{{$article->id}}').submit();
+                    }" type="checkbox" @if ($article->published)
+                    checked
+                    @endif name="published" role="switch" id="published">
+
+                </div>
+                <form id="publish-{{$article->id}}" action="{{route('articles.publish', ['id'=>$article->id])}}" method="post">
+                  @csrf
+                  @method('put')
+                </form>
+              </td>
+
+                                                                                                                                                                                
+              
+              <td>
+            {{-- Read more --}}
+                <a href="{{route('articles.show', ['article'=>$article->id])}}" title="Read more" class="btn btn-secondary btn-sm"><i class="bi bi-binoculars"></i></a>
+            {{-- edit --}}
+                
+                <a href="{{route('articles.edit', ['article'=>$article->id])}}" class="btn btn-success btn-sm" title="Edit"><i class="bi bi-pencil"></i></a>
+              {{-- we renamed button into a becausse we're using a get method with delete --}}
+ 
+            {{-- delete --}}
+                {{-- javascript --}}
+                <button onclick="if(confirm('Are you sure you want to delete this post?')){
+                  document.getElementById('form-{{$article->id}}').submit();
+                }"
+                class="btn btn-danger btn-sm" title="Delete"><i class="bi bi-trash"></i></button>
+                <form id="form-{{$article->id}}" action="{{route('articles.destroy', ['article'=>$article->id])}}" method="post">
+                  @csrf
+                  @method('delete')
+                </form>
               </td>
             </tr>
             @endforeach
@@ -75,6 +118,9 @@
           </table>
         </div>
       </div>
+      <div class="card-footer">
+        {{$articles->links()}}
     </div>
+    
 </main>
 @endsection
