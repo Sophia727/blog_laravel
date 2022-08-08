@@ -12,7 +12,6 @@ class AuthController extends Controller
     }
     
     public function login(Request $request){
-        //dd($request);
         $credentials = $request->validate([
             'email'=> 'required|email',
             'password' =>'required'
@@ -21,7 +20,13 @@ class AuthController extends Controller
         $credentials['activate']=true;
         if (Auth::attempt($credentials)){
             $request->session()->regenerate();
-            return redirect('/admin');
+
+            if(($request->file("role"))=='admin'){
+                return redirect('/admin'); 
+             } else {
+                 return redirect('/user');
+             }
+            
         } 
          return back()->withErrors([
             'email'=>"auth error"

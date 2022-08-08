@@ -15,7 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users= User::orderBy('id', 'asc')->paginate(5);
+        return view('admin.user.user_list', ['users' => $users]);
     }
 
     /**
@@ -33,7 +34,7 @@ class UserController extends Controller
             'birth_date'=>$request->dateOfBirth,
             'role'=>$request->role,
         ]);
-        $alert = "successfully created User! Welcome";
+        $alert = "User created Successfully!";
         return view('admin.user.alert', compact('alert'));
     }
 
@@ -47,7 +48,25 @@ class UserController extends Controller
     {
         //
     }
-
+    public function activate($id){
+        $user = User::find($id);
+        $user->activate = !$user->activate;
+        
+        $message="";
+        // return 'okkkkk';
+        if($user['activate']){
+            $user['updated_at']= now();
+            $message= "User status: Active!";
+        } else{
+            $user['updated_at'] = now();
+            $message = "User status: Desactivated";
+        }
+        if($user->update()){
+            return redirect()->route('admin.user.user_list')->with(["status"=>$message]);
+        } else {
+            return back()->with('error', ' User Update failed')->withInput();
+        }
+    }
     /**
      * Display the specified resource.
      *
@@ -56,8 +75,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+        $user = User::find($id);
+        return view('admin.user.user.show', ['user'=>$user]);
+        }
+    
+
 
     /**
      * Show the form for editing the specified resource.
@@ -90,6 +112,16 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user= User::find($id);
+        if($user->delete()){
+        return back()->with('status', "user ID $user->id - $user->name : deleted successfully");
+            //le code 200: everything went successully
+            //201: created successully
+            //419: expired / 404: not found
+        } else {
+            return back()->with('status', "Oops: failed to delete $user->id ");
+        }
     }
-}
+
+    
+    }

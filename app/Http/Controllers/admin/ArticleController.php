@@ -58,11 +58,11 @@ class ArticleController extends Controller
             $article['publication_date'] = now();
         }
         //dd($article);
-        $newArticle = Article::create($article);
+        $newArticle = Article::create($article); //create permet de stocker dans la DB
         if ($newArticle) {
-           return  redirect()->route('articles.list')->with(["status"=>"Article added successfully"]);
+           return  redirect()->route('user_articles_list')->with(["status"=>"Article added successfully"]);
         }else{
-            return back()->with("error","Failed to create the Article")->withInput();
+            return back()->with("error","Failed to create the Article")->withInput(); //withInput keeps old data
         }
 
     }
@@ -75,7 +75,7 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article = Article::find($id);
+        $article = Article::find($id)->get();
         return view('admin.article.article_show', ['article'=>$article]);
     }
 
@@ -150,7 +150,7 @@ class ArticleController extends Controller
     }
     public function publish(Request $request, $id){
         $article = Article::find($id);
-        $article->published = !$article->published ;
+        $article->published = !$article->published ; 
         
         $message="";
 
@@ -179,7 +179,7 @@ class ArticleController extends Controller
     {
         // $message="";
         
-        // $query = Request::get('query');
+        // $query = $request['query'];
         // $articles = Article::where('title', 'like',"% $query %")->paginate(6);
         // return view('admin.article.article_list', ['articles'=>$articles]);
         if(!($query = null)){

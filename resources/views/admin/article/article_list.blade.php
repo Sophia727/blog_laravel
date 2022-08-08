@@ -93,14 +93,14 @@
                                                                                                                                                                                 
               
               <td>
-            {{-- Read more --}}
+                {{-- Read more --}}
                 <a href="{{route('articles.show', ['article'=>$article->id])}}" title="Read more" class="btn btn-secondary btn-sm"><i class="bi bi-binoculars"></i></a>
-            {{-- edit --}}
-                
+            
+                {{-- edit --}}
                 <a href="{{route('articles.edit', ['article'=>$article->id])}}" class="btn btn-success btn-sm" title="Edit"><i class="bi bi-pencil"></i></a>
               {{-- we renamed button into a becausse we're using a get method with delete --}}
- 
-            {{-- delete --}}
+            
+              {{-- delete --}}
                 {{-- javascript --}}
                 <button onclick="if(confirm('Are you sure you want to delete this post?')){
                   document.getElementById('form-{{$article->id}}').submit();

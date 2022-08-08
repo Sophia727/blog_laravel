@@ -1,0 +1,16 @@
+.d-flex{
+    background-image: url("../storage/images/travel.jpeg");
+    height: 500px;
+    
+}
+
+
+/* .container-fluid{
+    background-color: white;
+    
+} */
+.user-article-view{
+    display: inline-grid;
+    padding: 15px;
+
+}
