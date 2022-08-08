@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use phpDocumentor\Reflection\Types\Nullable;
 
 class CreateUsersTable extends Migration
 {
@@ -21,8 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->enum("role", ["user", "admin"])->default(null);
             $table->date("birth_date");
-            $table->boolean("activate")->default(null);
-            $table->string('photo')->default(null);
+            $table->boolean("activate")->default(false);
+            $table->string('photo')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

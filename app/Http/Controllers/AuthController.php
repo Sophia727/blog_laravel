@@ -21,7 +21,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)){
             $request->session()->regenerate();
 
-            if(($request->file("role"))=='admin'){
+            if(Auth::user()->role =='admin'){
                 return redirect('/admin'); 
              } else {
                  return redirect('/user');

@@ -45,7 +45,16 @@
         @foreach($articles as $article)
         <div class="user-article-view">
           <div class="card" style="width: 20rem;">
-          <img src="{{$article->photo}}" class="card-img-top" alt="{{$article->photo}}">
+            @if($article->photo)
+            @if(Str::contains($article->photo, 'https://'))
+              <img src="{{$article->photo}}" alt="image" width="100px"></td>
+              @else
+              <img src="{{asset('storage/'.$article->photo)}}" alt="{{$article->name}}" width="100px">
+            @endif
+            @else
+            <img src="{{asset('storage/images/default-image.jpg'.$article->photo)}}" alt="pic" width="100px">
+            
+          @endif 
           <div class="card-body">
             <h5 class="card-title">{{$article->title}}</h5>
             <p class="card-text">{{Str::limit($article->description, 100)}}</p>

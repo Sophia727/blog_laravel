@@ -60,7 +60,7 @@ class ArticleController extends Controller
         //dd($article);
         $newArticle = Article::create($article); //create permet de stocker dans la DB
         if ($newArticle) {
-           return  redirect()->route('user_articles_list')->with(["status"=>"Article added successfully"]);
+           return  redirect()->route('articles.list')->with(["status"=>"Article added successfully"]);
         }else{
             return back()->with("error","Failed to create the Article")->withInput(); //withInput keeps old data
         }
@@ -75,7 +75,7 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article = Article::find($id)->get();
+        $article = Article::find($id);
         return view('admin.article.article_show', ['article'=>$article]);
     }
 

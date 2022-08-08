@@ -12,27 +12,27 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           @auth
+
+          {{-- admin --}}
+            @if (Auth::user()->role=="admin")
             <li class="nav-item">
               <a class="nav-link" href="{{route('articles.list')}}">Articles</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/admin">Dashbord</a>
             </li> 
-            <li class="nav-item">
-              <a class="nav-link btn btn-danger" href="/logout">Log-out</a>
-            </li>   
-          @endauth
-          {{-- @auth('user')
+            {{-- user --}}
+            @elseif (Auth::user()->role=="admin")
             <li class="nav-item">
               <a class="nav-link" href="{{route('user_articles_list')}}">Articles</a>
             </li>
-            {{-- <li class="nav-item">
-              <a class="nav-link" href="/admin">Dashbord</a>
-            </li> 
+            @endif
             <li class="nav-item">
               <a class="nav-link btn btn-danger" href="/logout">Log-out</a>
-            </li>   
-          @endauth --}}
+            </li>  
+             
+          @endauth
+         
           @guest
             <li class="nav-item">
               <a class="nav-link" href="login">Login</a>

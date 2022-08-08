@@ -22,34 +22,42 @@ Route::get('/', function () {
 });
 
 
-Route::get('/login', [AuthController::class, 'index']);
+Route::get('/login', [AuthController::class, 'index'])->name('login.display');
 Route::Post('/login', [AuthController::class, 'login'])->name("login");
 
 //il faut etre authentifié pour acceder à "articles" / "logout" ...
-Route::middleware('auth')->group(function(){
+Route::middleware(['auth', 'admin'])->group(function(){
     //admin
     Route::get('/admin', function(){
-        return view('admin.home');
+        return view('admin.home')->name('admin.dashboard');
         });
     
     Route::prefix('/admin')->group(function(){
         
         //admin/articles
-        Route::get("articles/index", [ArticleController::class, 'index'])->name("articles.list");
-        Route::get("articles/show", [ArticleController::class, 'show'])->name("articles.show");
+        Route::get("articles", [ArticleController::class, 'index'])->name("articles.list");
         Route::get("articles/create", [ArticleController::class, 'create'])->name('articles.create');
+        Route::get("articles/{article}/show", [ArticleController::class, 'show'])->name("articles.show");
+        Route::get("articles/{article}/edit", [ArticleController::class, 'edit'])->name('articles.edit');
+        Route::put("articles/{article}/update", [ArticleController::class, 'update'])->name('articles.update');
+        Route::get("articles/destroy", [ArticleController::class, 'destroy'])->name('articles.destroy');
+        Route::post("articles/store", [ArticleController::class, 'store'])->name('articles.store');
 
+        Route::put('article/{id}/publish', [ArticleController::class, 'publish'])->name('articles.publish');
+        // Route::put('article/{query}/search', [ArticleController::class, 'search'])->name('articles.search');
+        Route::get('article/search', [ArticleController::class, 'search'])->name('articles.search');
+
+
+        
         //admin/user
-        Route::resource('user', UserController::class)->names([
+        Route::resource('users', UserController::class)->names([
             'index'=>'user_list',
             'create'=>'user.create',
-        ]);
-        Route::put("user/{id}/activate", [UserController::class, "activate"])->name("users.activate");
-        Route::get("user/{id}/show", [UserController::class, "show"])->name("user.show");
+        ])->except('show');
+        Route::put("users/{id}/activate", [UserController::class, "activate"])->name("users.activate");
+        Route::get("users/{user}/show", [UserController::class, "show"])->name("users.show");
+        Route::get("users/search", [UserController::class, "search"])->name("users.search");
         
-    Route::put('article/{id}/publish', [ArticleController::class, 'publish'])->name('articles.publish');
-    // Route::put('article/{query}/search', [ArticleController::class, 'search'])->name('articles.search');
-    Route::get('article/search', [ArticleController::class, 'search'])->name('articles.search');
     });
 
     Route::get('/user', [User_articleController::class, 'index'])->name('userArticlesList');    

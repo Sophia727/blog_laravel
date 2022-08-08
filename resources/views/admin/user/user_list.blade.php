@@ -5,7 +5,7 @@
 <main class="col-md-9 m-auto col-lg-10 w-100">
     <div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2">Articles</h1>
+      <h1 class="h2">Users</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
           <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -31,7 +31,7 @@
         </div>
 
         <div class="col-4">
-          @include('components.search')
+          @include('components.searchUser')
         </div>
 
       </div>
@@ -77,7 +77,7 @@
               <td>{{$user->created_at}}</td>
         
               <td>
-                
+                {{-- activate --}}
                  <div class="form-check form-switch">
                     <input class="form-check-input" onchange="if(confirm('Are you sure to change the state of this user?')){
                       document.getElementById('activate-{{$user->id}}').submit();
@@ -85,7 +85,7 @@
                         checked
                       @endif name="activate"  role="switch" id="activate">
                   </div>
-                  <form id="activate-{{$user->id}}" action="{{route('user.activate',['id'=>$user->id])}}" method="post">
+                  <form id="activate-{{$user->id}}" action="{{route('users.activate',['id'=>$user->id])}}" method="post">
                     @csrf
                     @method('put')
                   </form>
@@ -95,7 +95,7 @@
               
               <td>
             {{-- Read more --}}
-                <a href="{{route('user.show', ['user'=>$user->id])}}" title="Read more" class="btn btn-secondary btn-sm"><i class="bi bi-binoculars"></i></a>
+                <a href="{{route('users.show', ['user'=>$user->id])}}" title="Read more" class="btn btn-secondary btn-sm"><i class="bi bi-binoculars"></i></a>
  
             {{-- delete --}}
                 {{-- javascript --}}
@@ -103,7 +103,7 @@
                   document.getElementById('user-{{$user->id}}').submit();
                 }"
                 class="btn btn-danger btn-sm" title="Delete"><i class="bi bi-trash"></i></button>
-                <form id="user-{{$user->id}}" action="{{route('user.destroy', ['user'=>$user->id])}}" method="post">
+                <form id="user-{{$user->id}}" action="{{route('users.destroy', ['user'=>$user->id])}}" method="post">
                   @csrf
                   @method('delete')
                 </form>

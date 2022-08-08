@@ -2,17 +2,15 @@
 
 @section('title', 'login')
 @section("content")
+<div class="container">
+    @if (session('error'))
+    <div class="alert alert-danger">
+        {{session('error')}}
+    </div>
+@endif
+</div>
 <div class="card mx-auto" style="width: 25rem;">
     <div class="card-body">
-         {{--@if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li> chaque erreur sous forme de liste--}}
-                    {{--@endforeach
-                </ul>
-            </div>
-        @endif--}}
         <form action="{{route('login')}}" method="POST">
             @csrf
             <div class="mb-3">
